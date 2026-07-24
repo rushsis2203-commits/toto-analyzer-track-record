@@ -22,7 +22,7 @@ st.set_page_config(page_title="구독 신청 · 토토분석", page_icon="📬",
 st.title("📬 프리미엄 리포트 구독 신청")
 st.caption("매일 EV>0 조합을 배당·추천 베팅 금액과 함께 이메일로 보내드립니다. 적중하면 알림 메일도 따로 갑니다.")
 
-st.page_link("streamlit_app.py", label="⬅ 공개 트랙레코드(적중률·ROI) 먼저 보기", icon="📊")
+st.markdown('📊 <a href="/" target="_self">⬅ 공개 트랙레코드(적중률·ROI) 먼저 보기</a>', unsafe_allow_html=True)
 
 st.divider()
 
