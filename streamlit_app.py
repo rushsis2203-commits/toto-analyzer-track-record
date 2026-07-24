@@ -31,6 +31,7 @@ def format_pct(value: object) -> str:
 st.title("📊 토토분석 실계좌 트랙레코드")
 st.caption("모델이 추천한 조합을 실제로 베팅한 결과를 그대로 공개합니다. 승패를 가리지 않고 전부 반영된 수치입니다.")
 st.info("이 페이지는 통계적 분석 결과의 참고용 공개 자료이며, 베팅/투자 권유가 아닙니다.", icon="ℹ️")
+st.page_link("pages/1_구독신청.py", label="프리미엄 리포트 구독 신청하기 →", icon="📬")
 
 if not DATA_PATH.exists():
     st.warning("아직 공개된 트랙레코드 데이터가 없습니다. 곧 업데이트됩니다.")
