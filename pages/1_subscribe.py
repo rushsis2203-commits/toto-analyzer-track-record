@@ -13,8 +13,8 @@ import streamlit as st
 OWNER_EMAIL = "rushsis2203@gmail.com"
 
 PLANS = {
-    "통합 (KBO/NPB + MLB)": 50_000,
-    "리그별 (KBO/NPB 또는 MLB 중 1개)": 30_000,
+    "통합 (KBO/NPB + MLB)": 100_000,
+    "리그별 (KBO/NPB 또는 MLB 중 1개)": 50_000,
 }
 
 st.set_page_config(page_title="구독 신청 · 토토분석", page_icon="📬", layout="wide")
