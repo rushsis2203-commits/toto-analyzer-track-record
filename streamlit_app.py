@@ -92,6 +92,27 @@ if risk_df is not None:
     with st.expander("신뢰도 지표 전체 보기"):
         st.dataframe(sheets["신뢰도"], hide_index=True, width="stretch")
 
+# --- 집계에서 분리한 구간 --------------------------------------------------------------
+# 트랙레코드 시작일을 옮겼다면 그 사실과 잘라낸 구간의 성적을 같은 화면에 올린다.
+# 시작일을 유리하게 고른 게 아니라는 걸 보는 사람이 직접 확인할 수 있어야 한다.
+periods_df = sheets.get("운영구간")
+if periods_df is not None and not periods_df.empty:
+    period_values = periods_df.set_index("항목")["값"]
+    st.subheader("집계 구간 안내")
+    st.info(
+        f"위 성과는 **정식 운영 구간({period_values.get('정식 운영 시작일', 'N/A')} 이후)**만 집계한 값입니다. "
+        f"그 이전에 시범운영 구간이 있었고, 그 기간 성적은 "
+        f"**{period_values.get('시범운영 순손익', 'N/A')}**"
+        f"({period_values.get('시범운영 기간', 'N/A')}, {period_values.get('시범운영 표본', 'N/A')})입니다. "
+        f"{period_values.get('자본금 재설정일', 'N/A')}에 자본금을 "
+        f"{period_values.get('재설정 전 잔고', 'N/A')}에서 {period_values.get('재설정 후 자본금', 'N/A')}으로 "
+        f"재설정했으므로(추가 입금 {period_values.get('추가 입금', 'N/A')}), "
+        "'초기 자본 대비 누적 수익률'은 그 이후 구간에만 해당합니다.",
+        icon="🗓️",
+    )
+    with st.expander("분리한 구간 상세 보기"):
+        st.dataframe(periods_df, hide_index=True, width="stretch")
+
 st.subheader("잔고 추이")
 if not balance_df.empty:
     fig = go.Figure()
