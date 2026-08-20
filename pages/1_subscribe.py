@@ -35,13 +35,54 @@ st.set_page_config(page_title="구독 신청 · 토토분석", page_icon="📬",
 st.title("📬 프리미엄 리포트 구독 신청")
 st.caption("매일 EV>0 조합을 배당·추천 베팅 금액과 함께 이메일로 보내드립니다. 적중하면 알림 메일도 따로 갑니다.")
 
+st.markdown('📊 <a href="/" target="_self">⬅ 공개 트랙레코드(적중률·ROI) 먼저 보기</a>', unsafe_allow_html=True)
+
+# --- 무료 단계를 유료보다 먼저 보여준다 --------------------------------------------------
+# 공개 트랙레코드(수동 방문)에서 곧바로 유료 결제로 건너뛰게 해뒀더니 전환이 3명에서 멈췄다.
+# 무료 일간 검증 메일이 그 사이를 메운다. 사후 검증만 보내므로 유료 상품과 겹치지 않는다.
+st.divider()
+st.header("📩 먼저 무료로 받아보세요")
+st.markdown(
+    '<div id="free"></div>'
+    "매일 아침, **전날 예측이 맞았는지 틀렸는지**를 정리해 보내드립니다. "
+    "맞은 것만이 아니라 틀린 것까지 전부 싣습니다.",
+    unsafe_allow_html=True,
+)
+
+free_left, free_right = st.columns([3, 2])
+with free_left:
+    st.markdown(
+        "- 전날 추천 조합의 실제 결과 (적중/실패, 손익)\n"
+        "- 그날 모델이 계산한 **모든 선택지**의 마켓별 적중률\n"
+        "- 주요 적중 요인 / 실패 원인 집계 (선발 붕괴, 타선 침묵 등)\n"
+        "- 누적 트랙레코드 링크\n"
+    )
+    st.caption(
+        "이 메일에는 **경기 전 예측이 들어가지 않습니다.** 끝난 경기에 대한 사후 검증만 보냅니다. "
+        "경기 전 분석은 아래 유료 플랜입니다."
+    )
+with free_right:
+    free_email = st.text_input("이메일 주소", placeholder="you@example.com", key="free_email")
+    free_subject = quote("[토토분석] 무료 일간 검증 메일 신청")
+    free_body = quote(
+        f"받을 이메일: {free_email or '(여기에 이메일 주소를 적어주세요)'}\n\n"
+        "무료 일간 검증 메일을 신청합니다."
+    )
+    st.link_button(
+        "📩 무료로 신청하기",
+        url=f"mailto:{OWNER_EMAIL}?subject={free_subject}&body={free_body}",
+        type="primary",
+    )
+    st.caption("결제·카드 등록 없음. 언제든 수신거부 가능합니다.")
+
+st.divider()
+st.header("💳 유료 플랜 — 경기 전 분석")
+
 st.success(
     f"**{TRIAL_DAYS}일 무료 체험** — 카드 등록 없이 이메일 주소만 남기시면 됩니다. "
     "체험 기간이 끝나도 자동 결제되지 않고, 계속 받으실 분만 따로 신청하시면 됩니다.",
     icon="🎁",
 )
-
-st.markdown('📊 <a href="/" target="_self">⬅ 공개 트랙레코드(적중률·ROI) 먼저 보기</a>', unsafe_allow_html=True)
 
 st.divider()
 

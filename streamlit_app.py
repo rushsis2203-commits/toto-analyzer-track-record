@@ -32,7 +32,22 @@ def format_pct(value: object) -> str:
 st.title("📊 토토분석 실계좌 트랙레코드")
 st.caption("모델이 추천한 조합을 실제로 베팅한 결과를 그대로 공개합니다. 승패를 가리지 않고 전부 반영된 수치입니다.")
 st.info("이 페이지는 통계적 분석 결과의 참고용 공개 자료이며, 베팅/투자 권유가 아닙니다.", icon="ℹ️")
-st.markdown('📬 <a href="subscribe" target="_self">프리미엄 리포트 구독 신청하기 →</a>', unsafe_allow_html=True)
+# 무료 신청을 유료보다 위에 둔다. 수익성이 아직 증명되지 않은 단계에서 곧바로 결제를
+# 요구하면 전환이 막힌다(구독자 3명에서 정체). 무료 일간 검증 메일로 먼저 신뢰를 쌓게 한다.
+free_col, paid_col = st.columns([3, 2])
+with free_col:
+    st.markdown(
+        '📩 <a href="subscribe#free" target="_self"><b>무료 일간 "어제 우리가 뭘 틀렸나" 메일 받기 →</b></a>'
+        '<br><span style="color:#666;font-size:0.9em">결제·카드 등록 없음. '
+        '전날 예측이 맞았는지 틀렸는지만 매일 보내드립니다.</span>',
+        unsafe_allow_html=True,
+    )
+with paid_col:
+    st.markdown(
+        '📬 <a href="subscribe" target="_self">프리미엄 리포트 구독 신청하기 →</a>'
+        '<br><span style="color:#666;font-size:0.9em">경기 전 분석. 7일 무료 체험.</span>',
+        unsafe_allow_html=True,
+    )
 
 if not DATA_PATH.exists():
     st.warning("아직 공개된 트랙레코드 데이터가 없습니다. 곧 업데이트됩니다.")
