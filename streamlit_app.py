@@ -45,7 +45,8 @@ with free_col:
 with paid_col:
     st.markdown(
         '📬 <a href="subscribe" target="_self">프리미엄 리포트 구독 신청하기 →</a>'
-        '<br><span style="color:#666;font-size:0.9em">경기 전 분석. 7일 무료 체험.</span>',
+        '<br><span style="color:#666;font-size:0.9em">경기 전 분석. 7일 무료 체험.</span>'
+        '<br><a href="terms" target="_self" style="font-size:0.85em">이용약관·환불규정</a>',
         unsafe_allow_html=True,
     )
 

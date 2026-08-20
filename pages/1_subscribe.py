@@ -12,6 +12,26 @@ import streamlit as st
 
 OWNER_EMAIL = "rushsis2203@gmail.com"
 
+# 유입 경로 태그 (2026-08-20 신설)
+#
+# 신청이 mailto로 들어와 어느 채널에서 왔는지 아무 데도 안 남았다. 페이지에 분석 스크립트를
+# 붙이는 대신(개인정보·쿠키 문제 없이) 각 채널이 쓰는 링크에 ?src= 를 달아두고, 그 값을
+# 신청 메일 제목에 태그로 넣는다. 운영자는 등록할 때 그 태그를 그대로 --source로 넘기면 된다.
+# 채널별 링크 예: .../subscribe?src=BLOG , ?src=YT , ?src=IG , ?src=COMM
+VALID_SOURCES = {"BLOG", "YT", "IG", "COMM", "SITE", "MAIL", "ETC"}
+
+
+def visitor_source() -> str:
+    """URL의 ?src= 값을 읽는다. 없거나 이상하면 SITE(직접 방문)로 본다."""
+    try:
+        raw = str(st.query_params.get("src", "")).upper()
+    except Exception:
+        return "SITE"
+    return raw if raw in VALID_SOURCES else "SITE"
+
+
+SOURCE = visitor_source()
+
 # 가격 (2026-08-20 개정)
 #
 # 2026-08-19에 통합 5만→10만, 리그별 3만→5만으로 올렸다가 되돌렸다. 인상 근거가 될 수익성이
@@ -63,7 +83,7 @@ with free_left:
     )
 with free_right:
     free_email = st.text_input("이메일 주소", placeholder="you@example.com", key="free_email")
-    free_subject = quote("[토토분석] 무료 일간 검증 메일 신청")
+    free_subject = quote(f"[토토분석][{SOURCE}] 무료 일간 검증 메일 신청")
     free_body = quote(
         f"받을 이메일: {free_email or '(여기에 이메일 주소를 적어주세요)'}\n\n"
         "무료 일간 검증 메일을 신청합니다."
@@ -135,7 +155,7 @@ plan_name = st.radio("플랜 선택", list(PLANS.keys()))
 price, period = PLANS[plan_name]
 
 price_text = "무료 체험" if price == 0 else f"{price:,}원 {period}".strip()
-subject = quote(f"[토토분석] 구독 신청 - {plan_name}")
+subject = quote(f"[토토분석][{SOURCE}] 구독 신청 - {plan_name}")
 body = quote(
     f"신청 플랜: {plan_name} ({price_text})\n"
     f"받을 이메일: {email or '(여기에 이메일 주소를 적어주세요)'}\n\n"
@@ -147,6 +167,10 @@ st.link_button("📧 이 내용으로 구독 신청 메일 보내기", url=mailt
 st.caption(f"메일 앱이 열리면 {OWNER_EMAIL} 앞으로 신청 내용이 채워져 있습니다. 그대로 보내주시면 됩니다.")
 
 st.divider()
+st.markdown(
+    '📄 <a href="terms" target="_self">이용약관 · 환불(청약철회) 규정 · 개인정보처리방침 →</a>',
+    unsafe_allow_html=True,
+)
 st.caption(
     "본 서비스는 합법 스포츠토토(프로토) 참고용 통계 분석 자료이며, 베팅·투자 권유가 아닙니다. "
     "성과 수치는 표기된 기간·표본에 한정되며 미래 성과를 보장하지 않습니다. "
